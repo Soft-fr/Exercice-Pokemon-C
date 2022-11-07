@@ -1,51 +1,167 @@
-﻿using pokemonApp;
-Pokemon sauvage = new Bulbizarre();
-bool continuer = true;
-string starterChoice = "0";
-
-while (continuer)
+﻿using System.Drawing;
+using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
+using pokemonApp;
+internal class Program
 {
-    while (starterChoice != "1" && starterChoice != "2" && starterChoice != "3")
+    public static void Main(string[] args)
+
     {
-        Console.WriteLine("choisi : 1 - Salameche, 2 - bulbizzare, 3 - carrapuce :");
-        starterChoice = Console.ReadLine();
-    
+        Console.WriteLine("Bienvenue a Sinnoh ou règne les pokémon !");
+        Console.WriteLine("Chosis un pokemon pour débuter l'aventure.");
+        Console.WriteLine("1- Tiplouf  2-Tortipouss   3-Ouisticram");
 
-        if (starterChoice == "1")
+        var choixStarter = Console.ReadLine();
+
+
+
+        switch (choixStarter)
         {
-            Salameche salameche = new Salameche();
-            Console.WriteLine($"tu as choisi {salameche.Name}");
-    
-            while (salameche.Pv > 0)
-                {
-                    Console.WriteLine(salameche.ActionChoice(salameche, sauvage));
-                    Console.WriteLine(sauvage.ActionChoiceSauvage(sauvage, salameche));
-                }
+            case "1":
+
+                Console.WriteLine("Vous avez choisis Tiplouf");
+                break;
+
+
+            case "2":
+
+                Console.WriteLine("Vous avez choisis Tortipouss");
+                break;
+
+
+
+            case "3":
+
+                Console.WriteLine("Vous avez choisis Ouisticram");
+                break;
+
         }
-        else if (starterChoice == "2")
+        Random random = new();
+        Sauvage sauvage = new Sauvage();
+        Starter starter = new Starter("Ton Pokémon");
+        string retour = "non";
+        while (retour != "oui")
         {
-            Bulbizarre bulbizzare = new Bulbizarre();
-            Console.WriteLine($"tu as choisi {bulbizzare.Name}");
-
-            while (bulbizzare.Pv > 0)
+            List<Object> NomCapture = new List<Object>();
+            Console.WriteLine("Tu veux faire quoi ?");
+            Console.WriteLine("1-Découvrir le monde de Sinnoh  2-Voir les stats de ton pokémon  3-Quitter");
+            if(sauvage.Pv <= 0)
             {
-                Console.WriteLine(bulbizzare.ActionChoice(bulbizzare, sauvage));
-                Console.WriteLine(sauvage.ActionChoiceSauvage(sauvage, bulbizzare));
+                sauvage = new Sauvage();
             }
-        }
-        else
-        {
-            Carapuce carapuce = new Carapuce();
-            Console.WriteLine($"tu as choisi {carapuce.Name}");
+            var choixMenu = Console.ReadLine();
 
-            while (carapuce.Pv > 0)
+            switch (choixMenu)
             {
-                Console.WriteLine(carapuce.ActionChoice(carapuce, sauvage));
-                Console.WriteLine(sauvage.ActionChoiceSauvage(sauvage, carapuce));
+                case "1":
+                    Console.WriteLine(sauvage.Name + " sauvage vous attaque");
+
+                    while (starter.Pv > 0 | sauvage.Pv > 0)
+                    {
+                        Console.WriteLine("Tu veux faire quoi ?");
+                        Console.WriteLine("1- Attaquer   2-Se Soigner   3-Fuir  4-Capturer");
+                        int choixAction = int.Parse((Console.ReadLine()));
+                        if (choixAction == 1)
+                        {
+                            if (starter.Vit >= starter.Vit)
+                            {
+                                sauvage.TakingDamage(starter.Atk);
+                                Console.WriteLine("Tu as infligé  " + starter.Atk + "DMG");
+                                Console.WriteLine(sauvage.Name + "  " + sauvage.Pv + " PV restants");
+                                Console.WriteLine("ATTENTION!" + sauvage.Name + " attaque!");
+                                starter.TakingDamage(sauvage.Atk);
+                                Console.WriteLine(sauvage.Name + " as infligé  " + sauvage.Atk + "DMG");
+                                Console.WriteLine(starter.Name + "  " + starter.Pv + " PV restants");
+                            }
+                            else
+                            {
+                                Console.WriteLine("ATTENTION!" + sauvage.Name + " attaque!");
+                                starter.TakingDamage(sauvage.Atk);
+                                Console.WriteLine(sauvage.Name + " as infligé  " + sauvage.Atk + "DMG");
+                                Console.WriteLine(starter.Name + "  " + starter.Pv + " PV restants");
+                                sauvage.TakingDamage(starter.Atk);
+                                Console.WriteLine("Tu as infligé  " + starter.Atk + "DMG");
+                                Console.WriteLine(sauvage.Name + "  " + sauvage.Pv + " PV restants");
+                            }
+                        }
+                        if (choixAction == 2)
+                        {
+                            Console.WriteLine("Tu utilise une potion");
+                            starter.Potion(20);
+                            Console.WriteLine("Tu as " + starter.Pv + " HP");
+                            Console.WriteLine("ATTENTION!" + sauvage.Name + " attaque!");
+                            starter.TakingDamage(sauvage.Atk);
+                            Console.WriteLine(sauvage.Name + " as infligé  " + sauvage.Atk + "DMG");
+                            Console.WriteLine(starter.Name + "  " + starter.Pv + " PV restants");
+                        }
+
+                        if (choixAction == 3)
+                        {
+                            if (random.Next(0, 50) < 10)
+                            {
+                                Console.WriteLine("Tu as pas réussi à t'échapper. Reste sur tes gardes.");
+                                Console.WriteLine("ATTENTION!" + sauvage.Name + " attaque!");
+                                starter.TakingDamage(sauvage.Atk);
+                                Console.WriteLine(sauvage.Name + " as infligé  " + sauvage.Atk + "DMG");
+                                Console.WriteLine(starter.Name + "  " + starter.Pv + " PV restants");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Ta réussi à t'échaper, t'y a échappé belle");
+                                break;
+                            }
+                        }
+
+                        if (choixAction == 4)
+                        {
+                                Console.WriteLine("3");
+                                Console.WriteLine("2");
+                                Console.WriteLine("1");
+                                if (random.Next(0, 50) < 10)
+                                {
+                                    Console.WriteLine("Zuuut, le pokemon est ressorti !");
+                                    Console.WriteLine("ATTENTION!" + sauvage.Name + " attaque!");
+                                    starter.TakingDamage(sauvage.Atk);
+                                    Console.WriteLine(sauvage.Name + " as infligé  " + sauvage.Atk + "DMG");
+                                    Console.WriteLine(starter.Name + "  " + starter.Pv + " PV restants");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Tu as capturé le pokemon sauvage ! Félicitation.");
+                                    NomCapture.Add(new Sauvage());
+                                    break;
+
+                                }
+
+                        }
+                        if (starter.Pv <= 0)
+                        {
+                            Console.WriteLine("Nonnnnnn ! Ton pokemon est tombé K.O");
+                            retour = "oui";
+                            break;
+                        }
+                        if (sauvage.Pv <= 0)
+                        {
+                            Console.WriteLine("Tu as gagné le combat");
+                            break;
+                        }
+                    }
+                    break;
+                case "2":
+                    Console.WriteLine("Point de vie = " + starter.Pv);
+                    Console.WriteLine("Dégats = " + starter.Atk);
+                    Console.WriteLine("Vitesse = " + starter.Vit);
+                    Console.WriteLine("Defense = " + starter.Def);
+                    Console.WriteLine("");
+                    break;
+                case "3":
+                    Console.WriteLine("A bientot dans le monde de Sinnoh");
+                    retour = "oui";
+                    break;
             }
+
         }
     }
-    Console.WriteLine("souhaitez-vous continuer ? (Y/n)");
-    string choix = Console.ReadLine();
-    continuer = choix != "quitter";
 }
+
+

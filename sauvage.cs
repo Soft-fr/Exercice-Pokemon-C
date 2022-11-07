@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using pokemonApp;
 using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
+using System.Drawing;
 
 namespace pokemonApp
 {
-    internal class Starter : Pokemon
+    internal class Sauvage : Pokemon
     {
-        public Starter(string nom)
+        private readonly string[] NomSauvage = { "Racaillou", "Leviator", "Artikodin" };
+        public Sauvage()
         {
             Random random = new();
-            Name = nom;
-            Pv = random.Next(80, 100);
+            Name = NomSauvage[random.Next(0, 3)];
+            Pv = random.Next(40, 100);
+            Atk = random.Next(10, 20);
             Def = random.Next(1, 5);
-            Atk = random.Next(15, 30);
             Vit = random.Next(10, 20);
         }
- 
-
         public int TakingDamage(int damages)
         {
             return Pv -= damages - Def;
@@ -32,4 +31,5 @@ namespace pokemonApp
             return Damage;
         }
     }
+
 }
